@@ -35,6 +35,6 @@ let posts = http.get('https://api.example.com/posts')
   .catch(error => /* code to handle error */);
 ```
 
-See [here](https://github.com/jasonsbarr/easy-http-ajax/blob/64720e13f7abf5eca9b5d682396e5a5245e100a2/src/easyhttpajax.js#L200-L211) for allowable params to .ajax()
+See [here](https://github.com/jasonsbarr/easy-http-fetch/blob/ebae8db4e7eabf5f3967cde47e95a3b982149478/src/easyhttpfetch.js#L74-L82) for allowable params to and usage of .send().
 
 Thanks to the [jQuery](https://jquery.com) team for the idea to pass params through a backend method.
