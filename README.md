@@ -20,7 +20,7 @@ If you have to support Internet Explorer and for some reason can't use Babel, [c
 - send()
 
 ## How it works
-Convenience methods pass a params object to EasyHTTPAjax.ajax(), which handles the XMLHttpRequest object accordingly.
+Convenience methods pass a params object to EasyHTTP.send(), which handles the fetch() request accordingly.
 
 The .send() method is also public if convenience methods aren't sufficient, though functionality is currently limited at this point.
 
