@@ -4,7 +4,7 @@
  * using updated JS practices, e.g. ES6+ classes
  * Only works with JSON for now, but will fix
  * 
- * @file Fetch API wrapper functions
+ * @file Fetch API wrapper functions for simple HTTP requests
  * @author Jason Barr <jason@jasonsbarr.com>
  * @version 0.1
  * @license MIT
@@ -14,14 +14,12 @@ class EasyHTTP {
     /**
      * Make HTTP GET request to retrieve record(s)
      * 
-     * @param {string} url 
+     * @param {string} url
+     * @returns {string|Object}
      */
-    get(url) {
-        return new Promise((resolve, reject) => {
-            fetch(url)
-            .then(response => response.json())
-            .then(data => resolve(data))
-            .catch(error => reject(error))
+    async get(url) {
+        return this.send(url, {
+            method: 'GET'
         });
     }
 
@@ -29,57 +27,67 @@ class EasyHTTP {
      * Make HTTP POST request to create record
      * 
      * @param {string} url 
-     * @param {Object} data 
+     * @param {Object} data
+     * @param {string} contentType MIME type of data to send
+     * @returns {string|Object}
      */
-    post(url, data) {
-        return new Promise((resolve, reject) => {
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => resolve(data))
-            .catch(error => reject(error))
-        });
+    async post(url, data, contentType) {
+        return this.send(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': contentType
+            }
+        }, data);
     }
 
     /**
      * Make HTTP PUT request to update record
      * 
      * @param {string} url 
-     * @param {Object} data 
+     * @param {Object} data
+     * @param {string} contentType MIME type of data to send 
+     * @returns {string|Object}
      */
-    put(url, data) {
-        return new Promise((resolve, reject) => {
-            fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => resolve(data))
-            .catch(error => reject(error))
-        });
+    async put(url, data, contentType) {
+        return this.send(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': contentType
+            }
+        }, data);
     }
 
     /**
      * Make HTTP DELETE request to delete record
      * 
      * @param {string} url 
+     * @returns {boolean}
      */
-    delete(url) {
-        return new Promise((resolve, reject) => {
-            fetch(url, {
-                method: 'DELETE'
-            })
-            .then(response => response.json())
-            .then(data => resolve(true))
-            .catch(error => reject(error))
+    async delete(url) {
+        let response = await fetch(url, {
+            method: 'DELETE'
         });
+
+        return response.ok;
+    }
+
+    /**
+     * Backend handler to send HTTP requests for helper methods
+     * 
+     * @param {string} url
+     * @param {Object} params Fetch parameters
+     * @param {string} params.method HTTP method
+     * @param {Object} params.headers Headers to send with HTTP request
+     * @param {Object} data Data to send on POST/PUT requests
+     */
+    async send(url, params, data) {
+        let response = await fetch(url, {
+            method: params.method,
+            headers: params.headers,
+            body: JSON.stringify(data)
+        });
+
+        let responseData = await response.json();
+        return responseData;
     }
 }
