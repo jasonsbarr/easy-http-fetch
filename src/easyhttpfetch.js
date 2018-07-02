@@ -6,7 +6,7 @@
  * 
  * @file Fetch API wrapper functions for simple HTTP requests
  * @author Jason Barr <jason@jasonsbarr.com>
- * @version 0.1
+ * @version 0.4
  * @license MIT
  */
 
