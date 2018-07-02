@@ -6,7 +6,7 @@ Uses Fetch API to process requests and responses for simple HTTP requests to a C
 
 Currently only works with JSON data, but I'm working on that.
 
-If you have to support Internet Explorer and for some reason can't use Babel, (check out the Ajax version)[https://github.com/jasonsbarr/easy-http-ajax].
+If you have to support Internet Explorer and for some reason can't use Babel, [check out the Ajax version](https://github.com/jasonsbarr/easy-http-ajax).
 
 ## Public methods
 
