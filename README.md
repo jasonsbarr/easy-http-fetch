@@ -35,6 +35,12 @@ let posts = http.get('https://api.example.com/posts')
   .catch(error => /* code to handle error */);
 ```
 
-See [here](https://github.com/jasonsbarr/easy-http-fetch/blob/ebae8db4e7eabf5f3967cde47e95a3b982149478/src/easyhttpfetch.js#L74-L82) for allowable params to and usage of .send().
+### Note:
+
+Remember, the Fetch API doesn't trigger .catch() on a regular HTTP error or application error like you'd expect; you have to account for them in your .then().
+
+To help with this, I've created 2 custom error classes you can check for: HTTPError and InvalidInputError.
+
+See [here](https://github.com/jasonsbarr/easy-http-fetch/blob/645f42fcfe5b689419c5e2bc5cf6c21472e64df6/src/easyhttp.js#L128-L137) for allowable params to and usage of .send().
 
 Thanks to the [jQuery](https://jquery.com) team for the idea to pass params through a backend method.
