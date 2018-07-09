@@ -132,6 +132,7 @@ class EasyHTTP {
      * @param {Object} params Fetch parameters
      * @param {string} params.method HTTP method
      * @param {Object} params.headers Headers to send with HTTP request
+     * @param {string} [params.headers['Content-Type']=application/json] Sets Content-Type header
      * @param {Object} data Data to send on POST/PUT requests
      */
     async send(url, params, data) {
