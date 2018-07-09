@@ -142,8 +142,6 @@ class EasyHTTP {
             body: prepareData(data, params.headers['Content-Type'])
         });
 
-        console.log(response);
-
         if (response.ok) {
             let responseData = await response.json();
             return responseData;
