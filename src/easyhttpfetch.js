@@ -10,6 +10,36 @@
  * @license MIT
  */
 
+class HTTPError extends Error {
+    constructor(errorMessage) {
+        super(errorMessage);
+        this.name = 'HTTPError'
+    }
+}
+
+class InvalidInputError extends Error {
+    constructor(errorMessage) {
+        super(errorMessage);
+        this.name = 'InvalidInputError'
+    }
+}
+
+function isData(data) {
+    if (data != undefined) {
+        return true;
+    }
+
+    return false;
+}
+
+function prepareData(data, contentType) {
+    if (contentType === 'application/json') {
+        return JSON.stringify(data);
+    }
+
+    return data;
+}
+
 class EasyHTTP {
     /**
      * Make HTTP GET request to retrieve record(s)
@@ -28,16 +58,20 @@ class EasyHTTP {
      * 
      * @param {string} url 
      * @param {Object} data
-     * @param {string} contentType MIME type of data to send
+     * @param {string} [contentType] MIME type of data to send
      * @returns {string|Object}
      */
     async post(url, data, contentType) {
-        return this.send(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': contentType
-            }
-        }, data);
+        if (isData(data)) {
+            return this.send(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': contentType || 'application/json'
+                }
+            }, data);
+        }
+
+        return new InvalidInputError('No data provided.')
     }
 
     /**
@@ -45,16 +79,20 @@ class EasyHTTP {
      * 
      * @param {string} url 
      * @param {Object} data
-     * @param {string} contentType MIME type of data to send 
+     * @param {string} [contentType] MIME type of data to send 
      * @returns {string|Object}
      */
     async put(url, data, contentType) {
-        return this.send(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': contentType
-            }
-        }, data);
+        if (isData(data)) {
+            return this.send(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': contentType || 'application/json'
+                }
+            }, data);
+        }
+
+        return new InvalidInputError('No data provided');
     }
 
     /**
@@ -68,7 +106,23 @@ class EasyHTTP {
             method: 'DELETE'
         });
 
-        return response.ok;
+        if (response.ok) {
+            return `${response.statusText}: Resource deleted.`
+        }
+
+        return new HTTPError('Something went wrong. Please make sure all your parameters are correct.')
+    }
+
+    async getRawJson(url) {
+        const response = await this.send(url, {
+            method: 'GET'
+        });
+
+        if (response.ok) {
+            return JSON.stringify(response);
+        } else {
+            return response;
+        }
     }
 
     /**
@@ -84,10 +138,17 @@ class EasyHTTP {
         let response = await fetch(url, {
             method: params.method,
             headers: params.headers,
-            body: JSON.stringify(data)
+            body: prepareData(data, params.headers['Content-Type'])
         });
 
-        let responseData = await response.json();
-        return responseData;
+        console.log(response);
+
+        if (response.ok) {
+            let responseData = await response.json();
+            return responseData;
+        } else {
+            return new HTTPError(`${response.status}: ${response.statusText}`)
+        }
+
     }
 }
