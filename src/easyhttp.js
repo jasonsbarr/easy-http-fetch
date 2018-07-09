@@ -1,8 +1,7 @@
 /**
  * Simple wrapper for Fetch to make asynchronous HTTP
- * requests. Uses the same API as EasyHTTPAjax but
- * using updated JS practices, e.g. ES6+ classes
- * Only works with JSON for now, but will fix
+ * requests. Only works with JSON for now, but will
+ * add support for form-data and other types.
  * 
  * @file Fetch API wrapper functions for simple HTTP requests
  * @author Jason Barr <jason@jasonsbarr.com>
@@ -151,3 +150,5 @@ class EasyHTTP {
 
     }
 }
+
+export const EasyHTTP = new EasyHTTP();
