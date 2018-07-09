@@ -41,6 +41,6 @@ Remember, the Fetch API doesn't trigger .catch() on a regular HTTP error or appl
 
 To help with this, I've created 2 custom error classes you can check for: HTTPError and InvalidInputError.
 
-See [here](https://github.com/jasonsbarr/easy-http-fetch/blob/645f42fcfe5b689419c5e2bc5cf6c21472e64df6/src/easyhttp.js#L128-L137) for allowable params to and usage of .send().
+See [here](https://github.com/jasonsbarr/easy-http-fetch/blob/1807605e0b7d7855ad108ba8fc206c69efae596c/src/easyhttp.js#L128-L137) for allowable params to and usage of .send().
 
 Thanks to the [jQuery](https://jquery.com) team for the idea to pass params through a backend method.
